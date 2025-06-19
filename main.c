@@ -1,26 +1,35 @@
 #include "philo.h"
 
+static void	cleanup(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->num_philos)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	free(data->forks);
+	free(data->philos);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	if (argc != 5)
+	if (argc < 5 || argc > 6)
 	{
-		printf("Erro: Número incorreto de argumentos.\n");
-		printf("Uso: ./philo num_filosofos tempo_para_morrer tempo_para_comer tempo_para_dormir\n");
+		printf("Uso: ./philo num_filosofos t_morrer t_comer t_dormir [num_refeicoes]\n");
 		return (1);
 	}
-	data.num_philos = ft_atoi(argv[1]);
-	data.time_to_die = ft_atoi(argv[2]);
-	data.time_to_eat = ft_atoi(argv[3]);
-	data.time_to_sleep = ft_atoi(argv[4]);
-
-	printf("--- Configuração da Simulação ---\n");
-	printf("Número de filósofos: %d\n", data.num_philos);
-	printf("Tempo para morrer: %lld ms\n", data.time_to_die);
-	printf("Tempo para comer: %lld ms\n", data.time_to_eat);
-	printf("Tempo para dormir: %lld ms\n", data.time_to_sleep);
-	printf("----------------------------------\n");
-	printf("Tempo atual em ms: %lld\n", get_time());
+	if (init_data(&data, argc, argv) != 0)
+	{
+		printf("Erro: Falha na inicialização dos dados.\n");
+		return (1);
+	}
+	printf("Inicialização completa! %d filósofos e %d garfos prontos.\n", data.num_philos, data.num_philos);
+	printf("Nenhuma simulação iniciada ainda. Apenas limpando os recursos.\n");
+	cleanup(&data);
 	return (0);
 }
