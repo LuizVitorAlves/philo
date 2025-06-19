@@ -1,13 +1,12 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <pthread.h>  // Adicionado para usar pthread_mutex_t
+# include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
 
-// Forward declaration para evitar dependência circular
 struct s_data;
 
 typedef struct s_philo
