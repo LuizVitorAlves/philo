@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 16:18:42 by lalves-d          #+#    #+#             */
+/*   Updated: 2025/06/19 16:18:44 by lalves-d         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -7,7 +19,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 
-struct s_data;
+struct	s_data;
 
 typedef struct s_philo
 {
