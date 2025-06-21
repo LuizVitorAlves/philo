@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:16:43 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/19 16:17:38 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/20 22:04:17 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ static int	init_mutexes(t_data *data)
 			return (1);
 		i++;
 	}
+	if (pthread_mutex_init(&data->print_lock, NULL) != 0)
+		return (1);
 	return (0);
 }
 

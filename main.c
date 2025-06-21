@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:18:07 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/19 16:18:08 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/20 21:58:13 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,32 @@ static void	cleanup(t_data *data)
 		pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&data->print_lock);
 	free(data->forks);
 	free(data->philos);
+}
+
+static int	start_simulation(t_data *data)
+{
+	int	i;
+
+	data->start_time = get_time();
+	i = 0;
+	while (i < data->num_philos)
+	{
+		if (pthread_create(&data->philos[i].thread, NULL,
+				&philosopher_routine, &data->philos[i]) != 0)
+			return (1);
+		i++;
+	}
+	i = 0;
+	while (i < data->num_philos)
+	{
+		if (pthread_join(data->philos[i].thread, NULL) != 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -32,7 +56,7 @@ int	main(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 	{
-		printf("Use: ./philo num_filos morrer comer dormir [num_refeicoes]\n");
+		printf("Use: ./philo num_filos t_die t_eat t_sleep [num_refeicoes]\n");
 		return (1);
 	}
 	if (init_data(&data, argc, argv) != 0)
@@ -40,9 +64,12 @@ int	main(int argc, char **argv)
 		printf("Erro: Falha na inicialização dos dados.\n");
 		return (1);
 	}
-	printf("Inicialização completa! %d filósofos e %d garfos prontos.\n",
-		data.num_philos, data.num_philos);
-	printf("Nenhuma simulação iniciada ainda. Apenas limpando os recursos.\n");
+	if (start_simulation(&data) != 0)
+	{
+		printf("Erro: Falha ao iniciar a simulação.\n");
+		cleanup(&data);
+		return (1);
+	}
 	cleanup(&data);
 	return (0);
 }
