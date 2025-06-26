@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:18:42 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/20 21:47:27 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:28:52 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ struct	s_data;
 typedef struct s_philo
 {
 	int				id;
-	pthread_t		thread;	
+	pthread_t		thread;
+	int				meals_eaten;
+	long long		last_meal_time;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 	struct s_data	*data;
 }				t_philo;
 
@@ -39,6 +43,7 @@ typedef struct s_data
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
+	pthread_mutex_t	sim_lock;
 }				t_data;
 
 // init.c

@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:16:43 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/20 22:04:17 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:47:22 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	init_mutexes(t_data *data)
 	}
 	if (pthread_mutex_init(&data->print_lock, NULL) != 0)
 		return (1);
+	if (pthread_mutex_init(&data->sim_lock, NULL) != 0)
+		return (1);
 	return (0);
 }
 
@@ -40,6 +42,9 @@ static void	init_philos(t_data *data)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].data = data;
+		data->philos[i].meals_eaten = 0;
+		data->philos[i].left_fork = &data->forks[i];
+		data->philos[i].right_fork = &data->forks[(i + 1) % data->num_philos];
 		i++;
 	}
 }

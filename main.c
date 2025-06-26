@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:18:07 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/20 21:58:13 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:34:48 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	cleanup(t_data *data)
 		i++;
 	}
 	pthread_mutex_destroy(&data->print_lock);
+	pthread_mutex_destroy(&data->sim_lock);
 	free(data->forks);
 	free(data->philos);
 }
@@ -35,6 +36,7 @@ static int	start_simulation(t_data *data)
 	i = 0;
 	while (i < data->num_philos)
 	{
+		data->philos[i].last_meal_time = data->start_time;
 		if (pthread_create(&data->philos[i].thread, NULL,
 				&philosopher_routine, &data->philos[i]) != 0)
 			return (1);
