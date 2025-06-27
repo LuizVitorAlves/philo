@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:16:43 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/26 18:47:22 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/26 22:07:50 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	init_data(t_data *data, int argc, char **argv)
 		data->num_meals_limit = ft_atoi(argv[5]);
 	else
 		data->num_meals_limit = -1;
+	data->simulation_should_end = 0;
 	data->philos = malloc(sizeof(t_philo) * data->num_philos);
 	if (!data->philos)
 		return (1);

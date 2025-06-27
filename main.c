@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:18:07 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/26 18:34:48 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/26 22:10:27 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static void	cleanup(t_data *data)
 
 static int	start_simulation(t_data *data)
 {
-	int	i;
+	int			i;
+	pthread_t	monitor_thread;
 
 	data->start_time = get_time();
 	i = 0;
@@ -42,6 +43,10 @@ static int	start_simulation(t_data *data)
 			return (1);
 		i++;
 	}
+	if (pthread_create(&monitor_thread, NULL, &monitor_routine, data) != 0)
+		return (1);
+	if (pthread_join(monitor_thread, NULL) != 0)
+		return (1);
 	i = 0;
 	while (i < data->num_philos)
 	{

@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 21:52:56 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/26 21:42:56 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/26 22:03:08 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void	eat(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->right_fork);
-		print_status(philo, "has taken a left fork");
-		pthread_mutex_lock(philo->left_fork);
 		print_status(philo, "has taken a right fork");
+		pthread_mutex_lock(philo->left_fork);
+		print_status(philo, "has taken a left fork");
 	}
 	else
 	{
@@ -29,9 +29,11 @@ static void	eat(t_philo *philo)
 		print_status(philo, "has taken a right fork");
 	}
 	print_status(philo, "is eating");
+	pthread_mutex_lock(&philo->data->sim_lock);
 	philo->last_meal_time = get_time();
-	usleep(philo->data->time_to_eat * 1000);
 	philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->data->sim_lock);
+	usleep(philo->data->time_to_eat * 1000);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }
@@ -41,8 +43,18 @@ void	*philosopher_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		usleep(1000);
+
 	while (1)
 	{
+		pthread_mutex_lock(&philo->data->sim_lock);
+		if (philo->data->simulation_should_end)
+		{
+			pthread_mutex_unlock(&philo->data->sim_lock);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->data->sim_lock);
 		eat(philo);
 		print_status(philo, "is sleeping");
 		usleep(philo->data->time_to_sleep * 1000);

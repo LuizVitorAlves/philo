@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:18:42 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/26 18:28:52 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/26 21:50:25 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_data
 	long long		time_to_eat;
 	long long		time_to_sleep;
 	int				num_meals_limit;
+	int				simulation_should_end;
 	long long		start_time;
 	t_philo			*philos;
 	pthread_mutex_t	*forks;
@@ -56,5 +57,8 @@ void		*philosopher_routine(void *arg);
 int			ft_atoi(const char *str);
 long long	get_time(void);
 void		print_status(t_philo *philo, const char *status);
+
+//monitor.c
+void		*monitor_routine(void *arg);
 
 #endif
