@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 21:49:25 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/26 21:54:14 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/27 09:08:00 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ static int	check_death(t_philo *philo)
 	time_since_last_meal = get_time() - philo->last_meal_time;
 	if (time_since_last_meal > philo->data->time_to_die)
 	{
-		print_status(philo, "died");
 		philo->data->simulation_should_end = 1;
 		pthread_mutex_unlock(&philo->data->sim_lock);
+		print_status(philo, "died");
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->data->sim_lock);

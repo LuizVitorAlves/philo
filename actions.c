@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 21:52:56 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/26 22:03:08 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/27 09:25:54 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,14 @@ void	*philosopher_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->data->num_philos == 1)
+	{
+		print_status(philo, "has taken a fork");
+		usleep(philo->data->time_to_die * 1000);
+		return (NULL);
+	}
 	if (philo->id % 2 == 0)
 		usleep(1000);
-
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->sim_lock);

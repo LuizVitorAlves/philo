@@ -6,7 +6,7 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:18:42 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/26 21:50:25 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/27 09:14:28 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void		*philosopher_routine(void *arg);
 // utils.c
 int			ft_atoi(const char *str);
 long long	get_time(void);
+int			ft_strcmp(const char *s1, const char *s2);
 void		print_status(t_philo *philo, const char *status);
 
 //monitor.c
