@@ -6,11 +6,23 @@
 /*   By: lalves-d <lalves-d@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 21:52:56 by lalves-d          #+#    #+#             */
-/*   Updated: 2025/06/27 09:25:54 by lalves-d         ###   ########.fr       */
+/*   Updated: 2025/06/27 09:37:24 by lalves-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static int	simulation_has_ended(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->sim_lock);
+	if (philo->data->simulation_should_end)
+	{
+		pthread_mutex_unlock(&philo->data->sim_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->data->sim_lock);
+	return (0);
+}
 
 static void	eat(t_philo *philo)
 {
@@ -51,15 +63,8 @@ void	*philosopher_routine(void *arg)
 	}
 	if (philo->id % 2 == 0)
 		usleep(1000);
-	while (1)
+	while (!simulation_has_ended(philo))
 	{
-		pthread_mutex_lock(&philo->data->sim_lock);
-		if (philo->data->simulation_should_end)
-		{
-			pthread_mutex_unlock(&philo->data->sim_lock);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->data->sim_lock);
 		eat(philo);
 		print_status(philo, "is sleeping");
 		usleep(philo->data->time_to_sleep * 1000);
