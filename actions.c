@@ -26,7 +26,7 @@ static int	simulation_has_ended(t_philo *philo)
 
 static void	take_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
+	if (philo->id % 1 == 0)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		print_status(philo, "has taken a fork");
